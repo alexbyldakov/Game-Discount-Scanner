@@ -1,0 +1,2619 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Поиск Steam</title>
+	<link href="http://store.akamai.steamstatic.com/public/shared/css/motiva_sans.css?v=ful_LJT3NQYl" rel="stylesheet" type="text/css" >
+<link href="http://store.akamai.steamstatic.com/public/shared/css/shared_global.css?v=mPlbx6GTKdHl" rel="stylesheet" type="text/css" >
+<link href="http://store.akamai.steamstatic.com/public/shared/css/buttons.css?v=ICwcye9gf5a3" rel="stylesheet" type="text/css" >
+<link href="http://store.akamai.steamstatic.com/public/css/v6/store.css?v=omI8ZUcctYc-" rel="stylesheet" type="text/css" >
+	<link href="http://store.akamai.steamstatic.com/public/css/v6/browse.css?v=LkgVfXwYdDm0" rel="stylesheet" type="text/css" >
+	<link href="http://store.akamai.steamstatic.com/public/css/v6/search.css?v=7uObSxmdu1Jj" rel="stylesheet" type="text/css" >
+	<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/shared/javascript/jquery-1.8.3.min.js?v=.TZ2NKhB-nliU"></script>
+<script type="text/javascript">$J = jQuery.noConflict();</script><script type="text/javascript" src="http://store.akamai.steamstatic.com/public/shared/javascript/tooltip.js?v=.9zt5WdJnbAc3"></script>
+
+<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/shared/javascript/shared_global.js?v=sk3O3RosAtHH&amp;l=russian"></script>
+
+<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/main.js?v=K2di3KV6z7cH&amp;l=russian"></script>
+
+<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/prototype-1.7.js?v=.a38iP7Khdmyy"></script>
+
+<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/scriptaculous/_combined.js?v=N9x7GFelaFEb&amp;l=russian&amp;load=effects,controls,slider"></script>
+
+<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/dynamicstore.js?v=lQKr4js2yrom&amp;l=russian"></script>
+
+<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/shared/javascript/jquery.appear.js?v=.Ppa7qtbccRVO"></script>
+
+<script type="text/javascript">
+jQuery(document).ready(function($) { $J.data( document, 'x_readytime', new Date().getTime() ); 
+$J.data( document, 'x_oldref', GetNavCookie() ); 
+$('.tooltip').v_tooltip(); $('.supernav').v_tooltip({'location':'bottom', 'tooltipClass': 'supernav_content', 'offsetY':-4, 'offsetX': 1, 'horizontalSnap': 4, 'tooltipParent': '#supernav'});
+window.BindStoreTooltip = function( $Selector ) { $Selector.v_tooltip( {'tooltipClass': 'store_tooltip', 'dataName': 'storeTooltip' } ); };
+BindStoreTooltip( $('[data-store-tooltip]') ); 
+});</script><script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33786258-1']);
+  _gaq.push(['_setSampleRate', '0.4']);
+  _gaq.push(['_setCustomVar', 1, 'Logged In', 'false', 2]);
+  _gaq.push(['_setCustomVar', 2, 'Client Type', 'External', 2]);
+  _gaq.push(['_setCustomVar', 3, 'Cntrlr', 'search', 3]);
+  _gaq.push(['_setCustomVar', 4, 'Method', "search\/", 3]);
+  _gaq.push(['_trackPageview']);
+  _gaq.push(['_setSessionCookieTimeout', 900000]);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+	<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/communitylink.js?v=KjwSZ3alqHlV&amp;l=russian"></script>
+	<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/dselect.js?v=oyBuAiDYscNz&amp;l=russian"></script>
+	<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/searchpage.js?v=dYbSWDLSm6XI&amp;l=russian"></script>
+	<script type="text/javascript" src="http://store.akamai.steamstatic.com/public/javascript/jquery.filter.js?v=.oSlrkBEwnw9N"></script>
+	<link rel="search" type="application/opensearchdescription+xml" title="Поиск Steam" href="http://store.steampowered.com/public/open_search.xml">
+	<script type="text/javascript">
+
+		jQuery( document ).ready(function( $ ) {
+			InitSearchPage();
+
+			//AddSearchTag("test", "test", "TEST!", function(){ RemoveSearchTag("test","test"); });
+			UpdateTags();
+
+			$('.tab_filter_control').each( function() {
+				var $Control = $(this);
+				var strParam = $Control.data('param');
+				var value = $Control.data('value');
+
+				$Control.click( function() {
+					var strValues = decodeURIComponent( $J("#"+strParam).val() );
+					value = String(value); // Javascript: Dynamic types except sometimes not.
+					if ( !$Control.hasClass( 'checked' ) )
+					{
+						var rgValues;
+						if( !strValues )
+							rgValues = [ value ];
+						else
+						{
+							rgValues = strValues.split(',');
+							if( $J.inArray(value, rgValues) == -1 )
+								rgValues.push(value)
+						}
+
+						$J("#"+strParam).val( rgValues.join(',') );
+						$Control.addClass('checked');
+					}
+					else
+					{
+						var rgValues = strValues.split(',');
+						if( rgValues.indexOf(value) != -1 )
+							rgValues.splice( rgValues.indexOf(value), 1 );
+
+						$J("#"+strParam).val( rgValues.join(',') );
+						$Control.removeClass('checked');
+					}
+					AjaxSearchResults();
+				});
+			});
+		});
+
+	</script>
+	</head>
+
+
+<body class="v6 search_page">
+
+<div id="global_header">
+	<div class="content">
+	
+		<div class="logo">
+			<span id="logo_holder">
+				<a href="http://store.steampowered.com/">
+					<img src="http://store.akamai.steamstatic.com/public/images/v5/globalheader_logo.png" width="176" height="44">
+				</a>
+			</span>
+			<!--[if lt IE 7]>
+			<style type="text/css">
+			#logo_holder img { filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0); }
+			#logo_holder { display: inline-block; width: 176px; height: 44px; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://store.akamai.steamstatic.com/public/images/v5/globalheader_logo.png'); }
+			</style>
+			<![endif]-->
+		</div>
+
+		<div style="position: absolute; left: 200px;" id="supernav">
+	<a class="menuitem supernav" href="http://store.steampowered.com/" data-tooltip-content="
+		<a class=&quot;submenuitem&quot; href=&quot;http://store.steampowered.com/&quot;>Популярное</a>
+		<a class=&quot;submenuitem&quot; href=&quot;http://store.steampowered.com/explore/&quot;>Введение</a>
+		<a class=&quot;submenuitem&quot; href=&quot;http://store.steampowered.com/curators/&quot;>Кураторы</a>
+		<a class=&quot;submenuitem&quot; href=&quot;http://steamcommunity.com/my/wishlist/&quot;>Список желаемого</a>
+		<a class=&quot;submenuitem&quot; href=&quot;http://store.steampowered.com/news/&quot;>Новости</a>
+		<a class=&quot;submenuitem&quot; href=&quot;http://store.steampowered.com/stats/&quot;>СТАТИСТИКА</a>
+	">
+		МАГАЗИН	</a>
+
+
+	<a class="menuitem supernav" style="display: block" href="http://steamcommunity.com/" data-tooltip-content="
+					<a class=&quot;submenuitem&quot; href=&quot;http://steamcommunity.com/&quot;>Главная</a>
+					<a class=&quot;submenuitem&quot; href=&quot;http://steamcommunity.com/discussions/&quot;>ОБСУЖДЕНИЯ</a>
+					<a class=&quot;submenuitem&quot; href=&quot;http://steamcommunity.com/workshop/&quot;>Мастерская</a>
+					<a class=&quot;submenuitem&quot; href=&quot;http://steamcommunity.com/greenlight/&quot;>Greenlight</a>
+					<a class=&quot;submenuitem&quot; href=&quot;http://steamcommunity.com/market/&quot;>Торговая площадка</a>
+													">
+
+		Сообщество	</a>
+
+	
+
+	
+	<a class="menuitem" href="http://store.steampowered.com/about/">
+		О STEAM	</a>
+
+	<a class="menuitem" href="http://support.steampowered.com/">
+		ПОДДЕРЖКА	</a>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready(function($) { 
+		$('.tooltip').v_tooltip();
+		$('.supernav').v_tooltip({'location':'bottom', 'tooltipClass': 'supernav_content', 'offsetY':-4, 'offsetX': 1, 'horizontalSnap': 4, 'tooltipParent': '#supernav', 'correctForScreenSize': false});
+	});
+</script>
+		<div id="global_actions">
+						<div id="global_action_menu">
+									<div class="header_installsteam_btn header_installsteam_btn_green">
+						<div class="header_installsteam_btn_leftcap"></div>
+						<div class="header_installsteam_btn_rightcap"></div>
+						<a class="header_installsteam_btn_content" href="http://store.steampowered.com/about/?snr=1_7_7_204_11">
+							Установить Steam						</a>
+					</div>
+				
+				
+									<a class="global_action_link" href="http://store.steampowered.com/login/?snr=1_7_7_204_11">войти</a>
+					&nbsp;|&nbsp; 
+					<span class="pulldown global_action_link" id="language_pulldown" onclick="ShowMenu( this, 'language_dropdown', 'right' );">язык</span>
+					<div class="popup_block_new" id="language_dropdown" style="display: none;">
+						<div class="popup_body popup_menu">
+																							<a class="popup_menu_item tight" href="?l=bulgarian&specials=1&os=win" onclick="ChangeLanguage( 'bulgarian' ); return false;">български (Болгарский)</a>
+																							<a class="popup_menu_item tight" href="?l=czech&specials=1&os=win" onclick="ChangeLanguage( 'czech' ); return false;">čeština (Чешский)</a>
+																							<a class="popup_menu_item tight" href="?l=danish&specials=1&os=win" onclick="ChangeLanguage( 'danish' ); return false;">Dansk (Датский)</a>
+																							<a class="popup_menu_item tight" href="?l=dutch&specials=1&os=win" onclick="ChangeLanguage( 'dutch' ); return false;">Nederlands (Голландский)</a>
+																							<a class="popup_menu_item tight" href="?l=english&specials=1&os=win" onclick="ChangeLanguage( 'english' ); return false;">English (Английский)</a>
+																							<a class="popup_menu_item tight" href="?l=finnish&specials=1&os=win" onclick="ChangeLanguage( 'finnish' ); return false;">Suomi (Финский)</a>
+																							<a class="popup_menu_item tight" href="?l=french&specials=1&os=win" onclick="ChangeLanguage( 'french' ); return false;">Français (Французский)</a>
+																							<a class="popup_menu_item tight" href="?l=greek&specials=1&os=win" onclick="ChangeLanguage( 'greek' ); return false;">Ελληνικά (Греческий)</a>
+																							<a class="popup_menu_item tight" href="?l=german&specials=1&os=win" onclick="ChangeLanguage( 'german' ); return false;">Deutsch (Немецкий)</a>
+																							<a class="popup_menu_item tight" href="?l=hungarian&specials=1&os=win" onclick="ChangeLanguage( 'hungarian' ); return false;">Magyar (Венгерский)</a>
+																							<a class="popup_menu_item tight" href="?l=italian&specials=1&os=win" onclick="ChangeLanguage( 'italian' ); return false;">Italiano (Итальянский)</a>
+																							<a class="popup_menu_item tight" href="?l=japanese&specials=1&os=win" onclick="ChangeLanguage( 'japanese' ); return false;">日本語 (Японский)</a>
+																															<a class="popup_menu_item tight" href="?l=koreana&specials=1&os=win" onclick="ChangeLanguage( 'koreana' ); return false;">한국어 (Корейский)</a>
+																							<a class="popup_menu_item tight" href="?l=norwegian&specials=1&os=win" onclick="ChangeLanguage( 'norwegian' ); return false;">Norsk (Норвежский)</a>
+																							<a class="popup_menu_item tight" href="?l=polish&specials=1&os=win" onclick="ChangeLanguage( 'polish' ); return false;">Polski (Польский)</a>
+																							<a class="popup_menu_item tight" href="?l=portuguese&specials=1&os=win" onclick="ChangeLanguage( 'portuguese' ); return false;">Português (Португальский)</a>
+																							<a class="popup_menu_item tight" href="?l=brazilian&specials=1&os=win" onclick="ChangeLanguage( 'brazilian' ); return false;">Português-Brasil (Бразильский португальский)</a>
+																															<a class="popup_menu_item tight" href="?l=romanian&specials=1&os=win" onclick="ChangeLanguage( 'romanian' ); return false;">Română (Румынский)</a>
+																							<a class="popup_menu_item tight" href="?l=schinese&specials=1&os=win" onclick="ChangeLanguage( 'schinese' ); return false;">简体中文 (Упрощенный китайский)</a>
+																							<a class="popup_menu_item tight" href="?l=spanish&specials=1&os=win" onclick="ChangeLanguage( 'spanish' ); return false;">Español (Испанский)</a>
+																							<a class="popup_menu_item tight" href="?l=swedish&specials=1&os=win" onclick="ChangeLanguage( 'swedish' ); return false;">Svenska (Шведский)</a>
+																							<a class="popup_menu_item tight" href="?l=tchinese&specials=1&os=win" onclick="ChangeLanguage( 'tchinese' ); return false;">繁體中文 (Традиционный китайский)</a>
+																							<a class="popup_menu_item tight" href="?l=thai&specials=1&os=win" onclick="ChangeLanguage( 'thai' ); return false;">ไทย (Тайский)</a>
+																							<a class="popup_menu_item tight" href="?l=turkish&specials=1&os=win" onclick="ChangeLanguage( 'turkish' ); return false;">Türkçe (Турецкий)</a>
+																							<a class="popup_menu_item tight" href="?l=ukrainian&specials=1&os=win" onclick="ChangeLanguage( 'ukrainian' ); return false;">Українська (Украинский)</a>
+														<a class="popup_menu_item tight" href="http://translation.steampowered.com" target="_blank">Помогите перевести Steam</a>
+						</div>
+					</div>
+							</div>
+		</div>
+			</div>
+</div>
+<div class="page_header_ctn search ">
+
+	<div id="store_header">
+	<div class="content">
+		<div id="store_controls">
+			<div id="cart_status_data">
+																	<div class="store_header_btn_green store_header_btn" id="store_header_cart_btn" style="display: none;">
+						<div class="store_header_btn_caps store_header_btn_leftcap"></div>
+						<div class="store_header_btn_caps store_header_btn_rightcap"></div>
+						<a id="cart_link" class="store_header_btn_content" href="http://store.steampowered.com/cart/?snr=1_7_7_204_12">
+							Корзина							(<span id="cart_item_count_value">0</span>)
+						</a>
+					</div>
+							</div>
+		</div>
+					<div id="store_nav_area">
+				<div class="store_nav_leftcap"></div>
+				<div class="store_nav_bg">
+					<div class="store_nav">
+						<a class="tab " href="http://store.steampowered.com/?snr=1_7_7_204_12">
+								<span>Популярное</span>
+						</a>
+													<div class="tab  flyout_tab" id="genre_tab" onmouseover="FlyoutMenu( 'genre_tab', 'genre_flyout', 'left', 'bottom' );" onmouseout="HideFlyoutMenu( event, 'genre_tab', 'genre_flyout' );">
+								<span class="pulldown">Игры<span ></span></span>
+
+							</div>
+							<div class="popup_block_new flyout_tab_flyout" id="genre_flyout" style="display: none;" onmouseout="HideFlyoutMenu( event, 'genre_tab', 'genre_flyout' );">
+								<div class="popup_body popup_menu">
+																																							<a class="popup_menu_item" href="http://store.steampowered.com/genre/Free%20to%20Play/?snr=1_7_7_204_12">
+												Бесплатные игры											</a>
+																																																																																																																																																																																																																																																																																																																																																																																																																																				<a class="popup_menu_item" href="http://store.steampowered.com/genre/Early%20Access/?snr=1_7_7_204_12">
+												Ранний доступ											</a>
+																												<div class="hr"></div>
+									<div class="popup_menu_subheader">Просмотр по жанру:</div>
+
+																																																																				<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%93%D0%BE%D0%BD%D0%BA%D0%B8/?snr=1_7_7_204_12">
+												Гонки											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%98%D0%BD%D0%B4%D0%B8/?snr=1_7_7_204_12">
+												Инди											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%9A%D0%B0%D0%B7%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D0%B8%D0%B3%D1%80%D0%B0/?snr=1_7_7_204_12">
+												Казуальная игра											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%9C%D0%9C%D0%9E/?snr=1_7_7_204_12">
+												ММО											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%9F%D1%80%D0%B8%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%20%D0%B8%D0%B3%D1%80%D0%B0/?snr=1_7_7_204_12">
+												Приключенческая игра											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A0%D0%BE%D0%BB%D0%B5%D0%B2%D0%B0%D1%8F%20%D0%B8%D0%B3%D1%80%D0%B0/?snr=1_7_7_204_12">
+												Ролевая игра											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A1%D0%B8%D0%BC%D1%83%D0%BB%D1%8F%D1%82%D0%BE%D1%80/?snr=1_7_7_204_12">
+												Симулятор											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F%20%D0%B8%D0%B3%D1%80%D0%B0/?snr=1_7_7_204_12">
+												Спортивная игра											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A1%D1%82%D1%80%D0%B0%D1%82%D0%B5%D0%B3%D0%B8%D1%8F/?snr=1_7_7_204_12">
+												Стратегия											</a>
+																																								<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%AD%D0%BA%D1%88%D0%B5%D0%BD/?snr=1_7_7_204_12">
+												Экшен											</a>
+																			
+									<div class="hr"></div>
+									<a class="popup_menu_item" href="http://store.steampowered.com/tag/browse/?snr=1_7_7_204_12">
+										Открыть популярные метки									</a>
+									<div class="hr"></div>
+									<div class="popup_menu_subheader">Просмотр по платформе:</div>
+									<a class="popup_menu_item" href="http://store.steampowered.com/search/?term=&sort_by=_ASC&os=mac&page=1&snr=1_7_7_204_12">
+										Mac OS X									</a>
+									<a class="popup_menu_item" href="http://store.steampowered.com/search/?term=&sort_by=_ASC&os=linux&page=1&snr=1_7_7_204_12">
+										SteamOS и Linux									</a>
+								</div>
+							</div>
+						
+                        <div class="tab  flyout_tab" id="software_tab" onmouseover="FlyoutMenu( 'software_tab', 'software_flyout', 'left', 'bottom' );" onmouseout="HideFlyoutMenu( event, 'software_tab', 'software_flyout' );">
+                            <span class="pulldown">Программы<span ></span></span>
+
+                        </div>
+                        <div class="popup_block_new flyout_tab_flyout" id="software_flyout" style="display: none;" onmouseout="HideFlyoutMenu( event, 'software_tab', 'software_flyout' );">
+                            <div class="popup_body popup_menu">
+
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%90%D0%BD%D0%B8%D0%BC%D0%B0%D1%86%D0%B8%D1%8F%20%D0%B8%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/?snr=1_7_7_204_12">
+										Анимация и моделирование									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%94%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD%20%D0%B8%20%D0%B8%D0%BB%D0%BB%D1%8E%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F/?snr=1_7_7_204_12">
+										Дизайн и иллюстрация									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%9E%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0%20%D0%B2%D0%B8%D0%B4%D0%B5%D0%BE/?snr=1_7_7_204_12">
+										Обработка видео									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%9E%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0%20%D1%84%D0%BE%D1%82%D0%BE/?snr=1_7_7_204_12">
+										Обработка фото									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%9F%D1%83%D0%B1%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F%20%D0%B2%20%D1%81%D0%B5%D1%82%D0%B8/?snr=1_7_7_204_12">
+										Публикация в сети									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%D1%81%D0%BE%20%D0%B7%D0%B2%D1%83%D0%BA%D0%BE%D0%BC/?snr=1_7_7_204_12">
+										Работа со звуком									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0%20%D0%B8%D0%B3%D1%80/?snr=1_7_7_204_12">
+										Разработка игр									</a>
+																	<a class="popup_menu_item" href="http://store.steampowered.com/tag/ru/%D0%A3%D1%82%D0%B8%D0%BB%D0%B8%D1%82%D0%B0/?snr=1_7_7_204_12">
+										Утилита									</a>
+								
+                            </div>
+                        </div>
+
+
+						<a class="tab active" href="http://store.steampowered.com/freestuff/demos/?snr=1_7_7_204_12">
+							<span>Демо</span>
+						</a>
+
+						<a class="tab " href="http://store.steampowered.com/news/?snr=1_7_7_204_12">
+							<span>Новости</span>
+						</a>
+
+
+						
+                            <div class="tab  flyout_tab" id="foryou_tab" onmouseover="EnsureStoreMenuTagsLoaded( '#foryou_yourtags' ); FlyoutMenu( 'foryou_tab', 'foryou_flyout', 'left', 'bottom' );" onmouseout="HideFlyoutMenu( event, 'foryou_tab', 'foryou_flyout' );">
+							<span class="pulldown">
+                                Для вас                                <span></span>
+							</span>
+                            </div>
+                            <div class="popup_block_new flyout_tab_flyout" id="foryou_flyout" style="display: none;" onmouseout="HideFlyoutMenu( event, 'foryou_tab', 'foryou_flyout' );">
+                                <div class="popup_body popup_menu">
+                                    <a class="popup_menu_item" href="http://store.steampowered.com/recommended/?snr=1_7_7_204_12">
+                                        Недавно просмотренные                                    </a>
+                                    <a class="popup_menu_item" href="http://store.steampowered.com/curators/?snr=1_7_7_204_12">
+                                        Кураторы Steam                                    </a>
+                                    <a class="popup_menu_item" href="http://store.steampowered.com/updated/all/?snr=1_7_7_204_12">
+                                        Недавно обновленные                                    </a>
+                                </div>
+                            </div>
+
+						
+						<div id="store_search">
+							<form id="searchform" name="searchform" method="get" action="http://store.steampowered.com/search/" onsubmit="return SearchSuggestCheckTerm(this);">
+								<input type="hidden" name="snr" value="1_7_7_204_12" >
+								<div class="searchbox">
+									<input id="store_nav_search_term" name="term" type="text" class="default" value="найти в магазине" size="22" autocomplete="off">
+									<a href="#" id="store_search_link" onclick="var $Form = $J(this).parents('form'); $Form.submit(); return false;"><img src="http://store.akamai.steamstatic.com/public/images/blank.gif"></a>
+								</div>
+							</form>
+						</div>
+						<div id="searchterm_options" class="search_suggest popup_block_new" style="display: none;">
+							<div class="popup_body" style="border-top: none;">
+								<div id="search_suggestion_contents">
+								</div>
+							</div>
+						</div>
+						<script language="JavaScript">
+							$J( function() { EnableSearchSuggestions( $J('#searchform')[0].elements['term'], '1_7_7_204', 'RU', 'russian', '743971' ); } );
+						</script>
+
+					</div>
+				</div>
+				<div class="store_nav_rightcap"></div>
+			</div>
+			</div>
+</div>
+<script type="text/javascript">
+	var g_AccountID = 0;
+	var g_sessionID = "ODgyMjUxODAy";
+	var g_ServerTime = 1414851026;
+
+	$J( InitMiniprofileHovers );
+
+			GDynamicStore.Init( 0, false, "win" );
+	</script>
+
+	<div class="page_content">
+		<div class="breadcrumbs">
+
+		</div>
+		<h2 class="pageheader full">
+			Скидки		</h2>
+				<div class="termcontainer">
+						<div id="termsnone">
+				<div class="pagesubheader">Все игры</div>
+			</div>
+
+			<div class="searchtag" id="searchtag_tmpl" style="display: none"><span class="label"></span> <a href="#" class="btn"></a></div>
+		</div>
+	</div>
+
+</div>
+<form action="http://store.steampowered.com/search/" id="advsearchform" name="advsearchform" onSubmit="AjaxSearchResults(); return false;" method="GET">
+<!-- Main Background -->
+<div class="page_content_ctn">
+	<div class="page_content">
+
+		<div class="leftcol large">
+
+			<div class="searchbar">
+				<input type="text" class="text" id="term" name="displayterm" onfocus="if(this.value=='введите искомое слово или метку'){this.value=''}" onchange="$('realterm').value= (this.value=='введите искомое слово или метку') ? '' : this.value" onblur="if(this.value==''){this.value='введите искомое слово или метку';}" value="введите искомое слово или метку" maxlength="64">
+				<input type="hidden" name="term" id="realterm" value="">
+				<div id="term_options" class="autocomplete" style="display: none;"></div>
+				<div class="sortbox">
+					<div class="label">Сортировать по</div>
+					<div class="dselect_container" id="sort_by_dselect_container">
+					<input id="sort_by" type="hidden" name="sort_by" value="_ASC" onchange="$J('sort_by').val(this.value); AjaxSearchResults(); "/>
+					<a class="trigger"id="sort_by_trigger" href="javascript:DSelectNoop();" onfocus="DSelectOnFocus( 'sort_by');" onblur="DSelectOnBlur( 'sort_by');" onclick="DSelectOnTriggerClick('sort_by');">релевантности</a>
+					<div class="dropcontainer">
+					<ul class="dropdownhidden" id="sort_by_droplist"><li><a class="inactive_selection" tabindex="99999" href="javascript:DSelectNoop();" onmouseover="DHighlightItem( 'sort_by', 0, false );" id="_ASC" onclick="DHighlightItem( 'sort_by', 0, true );" >релевантности</a></li><li><a class="inactive_selection" tabindex="99999" href="javascript:DSelectNoop();" onmouseover="DHighlightItem( 'sort_by', 1, false );" id="Released_DESC" onclick="DHighlightItem( 'sort_by', 1, true );" >дате выхода</a></li><li><a class="inactive_selection" tabindex="99999" href="javascript:DSelectNoop();" onmouseover="DHighlightItem( 'sort_by', 2, false );" id="Name_ASC" onclick="DHighlightItem( 'sort_by', 2, true );" >названию</a></li><li><a class="inactive_selection" tabindex="99999" href="javascript:DSelectNoop();" onmouseover="DHighlightItem( 'sort_by', 3, false );" id="Price_ASC" onclick="DHighlightItem( 'sort_by', 3, true );" >цене, сначала недорогие</a></li><li><a class="inactive_selection" tabindex="99999" href="javascript:DSelectNoop();" onmouseover="DHighlightItem( 'sort_by', 4, false );" id="Price_DESC" onclick="DHighlightItem( 'sort_by', 4, true );" >цене, сначала дорогие</a></li><li><a class="inactive_selection" tabindex="99999" href="javascript:DSelectNoop();" onmouseover="DHighlightItem( 'sort_by', 5, false );" id="Reviews_DESC" onclick="DHighlightItem( 'sort_by', 5, true );" >обзорам</a></li></ul>
+			</div>
+		</div><script language="javascript">$J( function() { $J('#sort_by_dselect_container').on('keydown', HandleKeyDown ); });</script>				</div>
+			</div>
+
+
+			<script type="text/javascript">
+				new Ajax.Autocompleter( $('advsearchform').elements['displayterm'], 'term_options', 'http://store.steampowered.com/search/suggest', {frequency: 0.2, method: "get", paramName: 'term', allowFreeEntry: true, afterUpdateElement:function() { $('realterm').value=$('term').value; AjaxSearchResults(); } });
+			</script>
+
+			<div id="search_results">
+				
+<script type = "text/javascript">
+
+	function shareLinkClick(link){
+		$('url_box').show();
+		$('sharearrow').show();
+		$('url_textarea').select();
+		link.style.color = "#7da6c8";
+
+	}
+
+</script>
+<div id = "search_result_container">
+
+	<div class="search_rule"></div>
+
+	
+
+		<!-- List Items -->
+		<div>
+			<!-- Extra empty div to hack around lame IE7 layout bug -->
+			<div></div>
+			<!-- End Extra empty div -->
+							<a href="http://store.steampowered.com/app/550/?snr=1_7_7_204_150_1"  data-ds-appid="550" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;550&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/550/capsule_sm_120.jpg?t=1412292839" alt="Buy Left 4 Dead 2" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Left 4 Dead 2</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img linux"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">16 ноя, 2009</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;97% из 75,618 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>499 p&#1091;&#1073;.</strike></span><br>124 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/237930/?snr=1_7_7_204_150_1"  data-ds-appid="237930" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;237930&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/237930/capsule_sm_120.jpg?t=1414687093" alt="Buy Transistor" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Transistor</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img linux"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">20 мая, 2014</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;96% из 4,897 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-50%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>419 p&#1091;&#1073;.</strike></span><br>209,50 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/22370/?snr=1_7_7_204_150_1"  data-ds-appid="22370" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;22370&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/22370/capsule_sm_120.jpg?t=1407877792" alt="Buy Fallout 3: Game of the Year Edition" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Fallout 3: Game of the Year Edition</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">17 дек, 2009</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;88% из 5,782 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-66%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>429 p&#1091;&#1073;.</strike></span><br>145 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/218620/?snr=1_7_7_204_150_1"  data-ds-appid="218620" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;218620&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/218620/capsule_sm_120.jpg?t=1414686645" alt="Buy PAYDAY 2" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">PAYDAY 2</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">13 авг, 2013</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;94% из 71,510 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-66%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>499 p&#1091;&#1073;.</strike></span><br>169 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/4500/?snr=1_7_7_204_150_1"  data-ds-appid="4500" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;4500&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/4500/capsule_sm_120.jpg?t=1413312364" alt="Buy S.T.A.L.K.E.R.: Shadow of Chernobyl" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">S.T.A.L.K.E.R.: Shadow of Chernobyl</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">31 авг, 2007</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;95% из 1,997 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-50%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>299 p&#1091;&#1073;.</strike></span><br>149 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/2028016/?snr=1_7_7_204_150_1"  data-ds-appid="22380" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;2028016&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/2028016/capsule_sm_120.jpg?t=1354671191" alt="Buy Fallout: New Vegas Ultimate Edition" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Fallout: New Vegas Ultimate Edition</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">9 фев, 2012</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;97% из 17,638 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-66%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>429 p&#1091;&#1073;.</strike></span><br>145 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/17390/?snr=1_7_7_204_150_1"  data-ds-appid="17390" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;17390&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/17390/capsule_sm_120.jpg?t=1406058565" alt="Buy SPORE™" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">SPORE™</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">19 дек, 2008</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;88% из 2,636 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>299 p&#1091;&#1073;.</strike></span><br>74 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/17440/?snr=1_7_7_204_150_1"  data-ds-appid="17440" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;17440&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/17440/capsule_sm_120.jpg?t=1311808734" alt="Buy SPORE&trade; Creepy & Cute Parts Pack" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">SPORE&trade; Creepy & Cute Parts Pack</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">19 дек, 2008</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;83% из 85 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>199 p&#1091;&#1073;.</strike></span><br>49 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/50650/?snr=1_7_7_204_150_1"  data-ds-appid="50650" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;50650&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/50650/capsule_sm_120.jpg?t=1391776775" alt="Buy Darksiders II" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Darksiders II</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">20 авг, 2012</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;91% из 4,062 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-85%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>549 p&#1091;&#1073;.</strike></span><br>82 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/50620/?snr=1_7_7_204_150_1"  data-ds-appid="50620" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;50620&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/50620/capsule_sm_120.jpg?t=1391776766" alt="Buy Darksiders™" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Darksiders™</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">23 сен, 2010</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;91% из 3,440 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-85%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>299 p&#1091;&#1073;.</strike></span><br>44 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/251570/?snr=1_7_7_204_150_1"  data-ds-appid="251570" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;251570&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/251570/capsule_sm_120.jpg?t=1412354711" alt="Buy 7 Days to Die" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">7 Days to Die</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">13 дек, 2013</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;84% из 11,983 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-40%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>449 p&#1091;&#1073;.</strike></span><br>269 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/20920/?snr=1_7_7_204_150_1"  data-ds-appid="20920" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;20920&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/20920/capsule_sm_120.jpg?t=1410538506" alt="Buy The Witcher 2: Assassins of Kings Enhanced Edition" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">The Witcher 2: Assassins of Kings Enhanced Edition</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img linux"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">16 апр, 2012</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;91% из 12,120 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-80%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>419 p&#1091;&#1073;.</strike></span><br>83 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/261030/?snr=1_7_7_204_150_1"  data-ds-appid="261030" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;261030&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/261030/capsule_sm_120.jpg?t=1409071824" alt="Buy The Walking Dead: Season 2" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">The Walking Dead: Season 2</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">17 дек, 2013</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;96% из 10,859 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-50%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>449 p&#1091;&#1073;.</strike></span><br>224 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/24720/?snr=1_7_7_204_150_1"  data-ds-appid="24720" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;24720&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/24720/capsule_sm_120.jpg?t=1297292756" alt="Buy SPORE&trade; Galactic Adventures" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">SPORE&trade; Galactic Adventures</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">23 июн, 2009</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="В основном положительные&lt;br&gt;79% из 424 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>199 p&#1091;&#1073;.</strike></span><br>49 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/33930/?snr=1_7_7_204_150_1"  data-ds-appid="33930" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;33930&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/33930/capsule_sm_120.jpg?t=1412944343" alt="Buy Arma 2: Operation Arrowhead" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Arma 2: Operation Arrowhead</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">29 июн, 2010</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;94% из 6,792 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-80%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>1199 p&#1091;&#1073;.</strike></span><br>239 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/33900/?snr=1_7_7_204_150_1"  data-ds-appid="33900" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;33900&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/33900/capsule_sm_120.jpg?t=1412705127" alt="Buy Arma 2" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Arma 2</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">29 июн, 2009</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;83% из 1,431 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-80%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>1199 p&#1091;&#1073;.</strike></span><br>239 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/41700/?snr=1_7_7_204_150_1"  data-ds-appid="41700" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;41700&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/41700/capsule_sm_120.jpg?t=1386683457" alt="Buy S.T.A.L.K.E.R.: Call of Pripyat" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">S.T.A.L.K.E.R.: Call of Pripyat</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">11 фев, 2010</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;96% из 1,839 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-50%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>449 p&#1091;&#1073;.</strike></span><br>224 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/2600/?snr=1_7_7_204_150_1"  data-ds-appid="2600" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;2600&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/2600/capsule_sm_120.jpg?t=1414620174" alt="Buy Vampire: The Masquerade - Bloodlines" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Vampire: The Masquerade - Bloodlines</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">22 мар, 2007</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;95% из 2,028 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>299 p&#1091;&#1073;.</strike></span><br>74 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/20510/?snr=1_7_7_204_150_1"  data-ds-appid="20510" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;20510&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/20510/capsule_sm_120.jpg?t=1413927769" alt="Buy S.T.A.L.K.E.R.: Clear Sky" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">S.T.A.L.K.E.R.: Clear Sky</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">15 сен, 2008</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;87% из 933 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-50%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>299 p&#1091;&#1073;.</strike></span><br>149 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/319510/?snr=1_7_7_204_150_1"  data-ds-appid="319510" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;319510&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/319510/capsule_sm_120.jpg?t=1412607996" alt="Buy Five Nights at Freddy's" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Five Nights at Freddy's</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">19 авг, 2014</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;95% из 5,109 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-50%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>129 p&#1091;&#1073;.</strike></span><br>64 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/243470/?snr=1_7_7_204_150_1"  data-ds-appid="243470" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;243470&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/243470/capsule_sm_120.jpg?t=1410309918" alt="Buy Watch_Dogs™" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Watch_Dogs™</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">27 мая, 2014</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary mixed" data-store-tooltip="Смешанные&lt;br&gt;64% из 12,088 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-40%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>799 p&#1091;&#1073;.</strike></span><br>479 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/305620/?snr=1_7_7_204_150_1"  data-ds-appid="305620" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;305620&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/305620/capsule_sm_120.jpg?t=1413381150" alt="Buy The Long Dark" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">The Long Dark</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">22 сен, 2014</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;95% из 1,138 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-25%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>419 p&#1091;&#1073;.</strike></span><br>314 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/233290/?snr=1_7_7_204_150_1"  data-ds-appid="233290" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;233290&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/233290/capsule_sm_120.jpg?t=1412853704" alt="Buy Murdered: Soul Suspect" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Murdered: Soul Suspect</span>
+						<p>
+							<span class="platform_img win"></span>						</p>
+					</div>
+					<div class="col search_released">5 июн, 2014</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Очень положительные&lt;br&gt;83% из 1,753 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>799 p&#1091;&#1073;.</strike></span><br>199 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/236850/?snr=1_7_7_204_150_1"  data-ds-appid="236850" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:&quot;236850&quot;,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/236850/capsule_sm_120.jpg?t=1414741169" alt="Buy Europa Universalis IV" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">Europa Universalis IV</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img linux"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">13 авг, 2013</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;95% из 5,983 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>699 p&#1091;&#1073;.</strike></span><br>174 p&#1091;&#1073;.					</div>
+
+
+				</a>
+							<a href="http://store.steampowered.com/app/207610/?snr=1_7_7_204_150_1"  data-ds-appid="207610" onmouseover="GameHover( this, event, 'global_hover', {&quot;type&quot;:&quot;app&quot;,&quot;id&quot;:207610,&quot;public&quot;:1,&quot;v6&quot;:1} );" onmouseout="HideGameHover( this, event, 'global_hover' )" class="search_result_row ds_collapse_flag" >
+					<div class="col search_capsule"><img src="http://cdn.akamai.steamstatic.com/steam/apps/207610/capsule_sm_120.jpg?t=1397689431" alt="Buy The Walking Dead" width="120" height="45"></div>
+					<div class="col search_name ellipsis">
+						<span class="title">The Walking Dead</span>
+						<p>
+							<span class="platform_img win"></span><span class="platform_img mac"></span><span class="platform_img steamplay"></span>						</p>
+					</div>
+					<div class="col search_released">24 апр, 2012</div>
+					<div class="col search_reviewscore">
+													<span class="search_review_summary positive" data-store-tooltip="Крайне положительные&lt;br&gt;97% из 17,300 обзоров этой игры положительны.">
+							</span>
+											</div>
+
+					<div class="col search_discount">
+						<span>-75%</span>
+					</div>
+					<div class="col search_price discounted">
+						<span style="color: #888888;"><strike>449 p&#1091;&#1073;.</strike></span><br>112 p&#1091;&#1073;.					</div>
+
+
+				</a>
+						<!-- End List Items -->
+		</div>
+
+		<div class="search_pagination">
+			<div class="search_pagination_left">
+				показано 1 — 25 из 1257			</div>
+			<div class="search_pagination_right">
+				1&nbsp;&nbsp;						<a href="http://store.steampowered.com/search/?sort_by=&sort_order=0&specials=1&os=win&page=2" onclick="SearchLinkClick( this ); return false;">2</a>
+					&nbsp;&nbsp;						<a href="http://store.steampowered.com/search/?sort_by=&sort_order=0&specials=1&os=win&page=3" onclick="SearchLinkClick( this ); return false;">3</a>
+										&nbsp;...&nbsp;&nbsp;<a href="http://store.steampowered.com/search/?sort_by=&sort_order=0&specials=1&os=win&page=51" onclick="SearchLinkClick( this ); return false;">51</a>
+									&nbsp;<a href="http://store.steampowered.com/search/?sort_by=&sort_order=0&specials=1&os=win&page=2" onclick="SearchLinkClick( this ); return false;" class="pagebtn">&gt;</a>
+							</div>
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+
+			</div>
+		</div>
+		<div class="rightcol small">
+
+			<div class="block">
+				<div class="block_header"><div>По метке</div></div>
+				<div class="block_content block_content_inner" id="narrow_tags" style="height: 150px;">
+					<div id="TagFilter_Container">
+							<div class="tab_filter_control " data-param="tags" data-value="19" data-loc="Экшен">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Экшен</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="492" data-loc="Инди">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Инди</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="21" data-loc="Приключенческая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Приключенческая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="9" data-loc="Стратегия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Стратегия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="122" data-loc="Ролевая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ролевая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="599" data-loc="Симулятор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Симулятор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="597" data-loc="Казуальная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Казуальная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="113" data-loc="Бесплатная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Бесплатная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4182" data-loc="Для одного игрока">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Для одного игрока</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="128" data-loc="ММО">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">ММО</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3859" data-loc="Для нескольких игроков">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Для нескольких игроков</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="699" data-loc="Гонки">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Гонки</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1774" data-loc="Шутер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Шутер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1663" data-loc="Шутер от первого лица">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Шутер от первого лица</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="701" data-loc="Спортивная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Спортивная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3942" data-loc="Научная фантастика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Научная фантастика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1685" data-loc="Кооператив">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Кооператив</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1664" data-loc="Головоломка">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Головоломка</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1756" data-loc="Отличный саундтрек">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Отличный саундтрек</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1684" data-loc="Фэнтези">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Фэнтези</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4166" data-loc="Атмосфера">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Атмосфера</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3839" data-loc="От первого лица">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">От первого лица</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1693" data-loc="Классика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Классика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1695" data-loc="Открытый мир">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Открытый мир</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1625" data-loc="Платформер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Платформер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3871" data-loc="2D">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">2D</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1667" data-loc="Хоррор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Хоррор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1742" data-loc="Глубокий сюжет">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Глубокий сюжет</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1698" data-loc="Point & Click">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Point & Click</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7208" data-loc="Женщина-протагонист">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Женщина-протагонист</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1697" data-loc="От третьего лица">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">От третьего лица</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3810" data-loc="Песочница">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Песочница</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1677" data-loc="Пошаговая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пошаговая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1719" data-loc="Юмор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Юмор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4136" data-loc="Смешная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Смешная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4085" data-loc="Аниме">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Аниме</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3843" data-loc="Совместная игра по сети">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Совместная игра по сети</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4026" data-loc="Сложная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Сложная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1662" data-loc="Выживание">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Выживание</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1708" data-loc="Тактика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Тактика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1659" data-loc="Зомби">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Зомби</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="87" data-loc="Утилита">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Утилита</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1027" data-loc="Работа со звуком">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Работа со звуком</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1773" data-loc="Аркада">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Аркада</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1755" data-loc="Космос">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Космос</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1676" data-loc="Стратегия в реальном времени">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Стратегия в реальном времени</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3834" data-loc="Исследование">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Исследование</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4231" data-loc="Ролевой экшен">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ролевой экшен</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4004" data-loc="Ретро">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ретро</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="84" data-loc="Дизайн и иллюстрация">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Дизайн и иллюстрация</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1741" data-loc="Пошаговая стратегия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пошаговая стратегия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4345" data-loc="Мясо">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мясо</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3814" data-loc="Шутер от третьего лица">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Шутер от третьего лица</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3964" data-loc="Пиксельная графика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пиксельная графика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3841" data-loc="Совместная локальная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Совместная локальная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1687" data-loc="Стелс">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Стелс</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1669" data-loc="Поддержка модификаций">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Поддержка модификаций</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1646" data-loc="Слэшер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Слэшер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3987" data-loc="История">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">История</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5350" data-loc="Для всей семьи">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Для всей семьи</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1716" data-loc="Рогалик">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Рогалик</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5900" data-loc="Симулятор ходьбы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Симулятор ходьбы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7481" data-loc="Контроллер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Контроллер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4150" data-loc="Вторая мировая война">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Вторая мировая война</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1036" data-loc="Обучение">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Обучение</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7368" data-loc="Локальный мультиплеер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Локальный мультиплеер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1645" data-loc="Tower Defense">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Tower Defense</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3978" data-loc="Хоррор на выживание">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Хоррор на выживание</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4234" data-loc="Короткая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Короткая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3835" data-loc="Пост-апокалипсис">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пост-апокалипсис</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1621" data-loc="Музыка">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Музыка</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4711" data-loc="Реиграбельность">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Реиграбельность</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1038" data-loc="Публикация в сети">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Публикация в сети</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3798" data-loc="Вид сбоку">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Вид сбоку</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1702" data-loc="Крафтинг">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Крафтинг</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1738" data-loc="Hidden Object">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Hidden Object</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5851" data-loc="Изометрия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Изометрия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1743" data-loc="Файтинг">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Файтинг</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="872" data-loc="Анимация и моделирование">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Анимация и моделирование</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4342" data-loc="Мрачная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мрачная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4172" data-loc="Средневековье">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Средневековье</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1678" data-loc="Война">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Война</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1734" data-loc="Быстрая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Быстрая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4168" data-loc="Военные действия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Военные действия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3968" data-loc="Физика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Физика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4158" data-loc="Beat'em up">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Beat'em up</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1775" data-loc="Игра против живых противников">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Игра против живых противников</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4726" data-loc="Милая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Милая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="12472" data-loc="Менеджмент">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Менеджмент</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1754" data-loc="MMORPG">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">MMORPG</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4255" data-loc="Shoot'em up">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Shoot'em up</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4747" data-loc="Изменяемый внешний вид персонажа">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Изменяемый внешний вид персонажа</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5711" data-loc="Командная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Командная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4434" data-loc="Японская ролевая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Японская ролевая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5716" data-loc="Тайна">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Тайна</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1673" data-loc="Инопланетяне">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Инопланетяне</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1643" data-loc="Строительство">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Строительство</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5577" data-loc="RPG Maker">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">RPG Maker</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4364" data-loc="Глобальная стратегия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Глобальная стратегия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1628" data-loc="Metroidvania">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Metroidvania</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4175" data-loc="Реализм">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Реализм</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3878" data-loc="Соревновательная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Соревновательная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4057" data-loc="Магия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Магия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4791" data-loc="Вид сверху">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Вид сверху</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5153" data-loc="Kickstarter">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Kickstarter</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5752" data-loc="Роботы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Роботы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3799" data-loc="Визуальная новелла">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Визуальная новелла</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4604" data-loc="Темное фэнтези">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Темное фэнтези</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5708" data-loc="Римейк">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Римейк</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6650" data-loc="Нагота">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Нагота</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4295" data-loc="Будущее">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Будущее</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4115" data-loc="Киберпанк">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Киберпанк</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="784" data-loc="Обработка видео">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Обработка видео</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1670" data-loc="4X">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">4X</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1644" data-loc="Вождение">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Вождение</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1777" data-loc="Стимпанк">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Стимпанк</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5611" data-loc="Для взрослых">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Для взрослых</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4885" data-loc="Скролл-шутер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Скролл-шутер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5348" data-loc="Модификации">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Модификации</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4036" data-loc="Паркур">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Паркур</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1710" data-loc="Сюрреалистичная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Сюрреалистичная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="29363" data-loc="3D Vision">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">3D Vision</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4328" data-loc="Градостроительный симулятор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Градостроительный симулятор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7107" data-loc="Можно приостановить">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Можно приостановить</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5125" data-loc="Процедурная генерация">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Процедурная генерация</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1718" data-loc="MOBA">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">MOBA</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1720" data-loc="Подземелье">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Подземелье</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4695" data-loc="Экономика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Экономика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1445" data-loc="Обучение работе с ПО">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Обучение работе с ПО</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3959" data-loc="Rogue-lite">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Rogue-lite</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4236" data-loc="Лут">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Лут</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1759" data-loc="Одна жизнь">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Одна жизнь</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="15045" data-loc="Полёты">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Полёты</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4106" data-loc="Приключенческий экшен">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Приключенческий экшен</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6971" data-loc="Нелинейность">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Нелинейность</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5923" data-loc="Черный юмор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Черный юмор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4821" data-loc="Мехи">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мехи</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5363" data-loc="Разрушаемость">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Разрушаемость</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5030" data-loc="Антиутопия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Антиутопия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6378" data-loc="Криминал">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Криминал</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1752" data-loc="Ритм-игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ритм-игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1681" data-loc="Пираты">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пираты</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1666" data-loc="Карточная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Карточная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="8013" data-loc="Программное обеспечение">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Программное обеспечение</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="8122" data-loc="Редактор уровней">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Редактор уровней</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4667" data-loc="Насилие">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Насилие</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1671" data-loc="Супергерои">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Супергерои</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1770" data-loc="Настольная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Настольная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4018" data-loc="Вампиры">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Вампиры</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4305" data-loc="Цветастая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Цветастая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1654" data-loc="Расслабляющая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Расслабляющая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1665" data-loc="Три в ряд">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Три в ряд</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5613" data-loc="Детектив">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Детектив</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6052" data-loc="Нуар">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Нуар</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7250" data-loc="Линейная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Линейная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7432" data-loc="Лавкрафт">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Лавкрафт</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4947" data-loc="Роман">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Роман</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1688" data-loc="Ниндзя">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ниндзя</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4325" data-loc="Пошаговые сражения">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пошаговые сражения</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3952" data-loc="Готика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Готика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1721" data-loc="Психологический хоррор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Психологический хоррор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4758" data-loc="Twin Stick Shooter">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Twin Stick Shooter</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6426" data-loc="Решения имеют последствия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Решения имеют последствия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="25085" data-loc="Поддержка сенсорного экрана">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Поддержка сенсорного экрана</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4598" data-loc="Альтернативная история">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Альтернативная история</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5537" data-loc="Головоломка-платформер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Головоломка-платформер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4878" data-loc="Parody ">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Parody </span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7332" data-loc="Строительство базы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Строительство базы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4242" data-loc="Сериал">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Сериал</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4161" data-loc="В реальном времени">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">В реальном времени</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1732" data-loc="Воксельная графика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Воксельная графика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="13190" data-loc="Америка">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Америка</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4975" data-loc="Псевдотрехмерность">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Псевдотрехмерность</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5154" data-loc="Score Attack">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Score Attack</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4046" data-loc="Драконы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Драконы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4145" data-loc="Кинематографичная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Кинематографичная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5502" data-loc="Хакерство">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Хакерство</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4195" data-loc="Мультипликация">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мультипликация</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="10695" data-loc="Партийная ролевая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Партийная ролевая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="10816" data-loc="Разделение экрана">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Разделение экрана</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="13906" data-loc="Разработка игр">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Разработка игр</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7782" data-loc="Культовая классика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Культовая классика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="9564" data-loc="Охота">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Охота</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="16598" data-loc="Космический симулятор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Космический симулятор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="8945" data-loc="Управление ресурсами">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Управление ресурсами</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4684" data-loc="Wargame">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Wargame</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1647" data-loc="Вестерн">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Вестерн</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1736" data-loc="LEGO">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">LEGO</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4202" data-loc="Обмен">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Обмен</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4376" data-loc="Ассассины">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ассассины</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4559" data-loc="Quick-time events">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Quick-time events</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5382" data-loc="Первая мировая война">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Первая мировая война</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5407" data-loc="Бенчмарк">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Бенчмарк</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="13276" data-loc="Танки">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Танки</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6730" data-loc="Игра против ИИ">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Игра против ИИ</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6691" data-loc="90-е">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">90-е</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6621" data-loc="Пинбол">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пинбол</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="13782" data-loc="Экспериментальная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Экспериментальная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="11014" data-loc="Текстовая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Текстовая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="14139" data-loc="Пошаговая тактика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Пошаговая тактика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="9551" data-loc="Симулятор свиданий">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Симулятор свиданий</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6815" data-loc="Рисованная графика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Рисованная графика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5179" data-loc="Холодная война">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Холодная война</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4562" data-loc="Мультфильм">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мультфильм</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4754" data-loc="Политика">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Политика</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1735" data-loc="Star Wars">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Star Wars</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="809" data-loc="Обработка фото">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Обработка фото</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4252" data-loc="Стилизация">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Стилизация</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="22602" data-loc="Agriculture">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Agriculture</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3796" data-loc="По мотивам книги">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">По мотивам книги</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1694" data-loc="Бэтмен">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Бэтмен</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1680" data-loc="Ограбления">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ограбления</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4840" data-loc="Локальная игра для четырех">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Локальная игра для четырех</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4736" data-loc="Двумерный файтинг">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Двумерный файтинг</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5547" data-loc="Арена">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Арена</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6948" data-loc="Рим">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Рим</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7948" data-loc="Soundtrack">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Soundtrack</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="10679" data-loc="Путешествия во времени">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Путешествия во времени</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5300" data-loc="Симулятор бога">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Симулятор бога</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4700" data-loc="Фильм">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Фильм</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4474" data-loc="Компьютерная ролевая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Компьютерная ролевая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1651" data-loc="Сатира">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Сатира</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1751" data-loc="По комиксу">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">По комиксу</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3955" data-loc="Яркий главный герой">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Яркий главный герой</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4155" data-loc="Разделение на классы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Разделение на классы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1616" data-loc="Поезда">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Поезда</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4777" data-loc="Зрелищные сражения">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Зрелищные сражения</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5310" data-loc="Games Workshop">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Games Workshop</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5228" data-loc="Blood">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Blood</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="12286" data-loc="Warhammer 40K">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Warhammer 40K</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="18594" data-loc="Видеовставки">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Видеовставки</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="10808" data-loc="Сверхъестественное">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Сверхъестественное</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="10397" data-loc="Мемы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мемы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7113" data-loc="Создана на пожертвования">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Создана на пожертвования</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7226" data-loc="Американский футбол">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Американский футбол</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7423" data-loc="Снайпер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Снайпер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5796" data-loc="Замедление времени">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Замедление времени</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5372" data-loc="Заговор">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Заговор</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4637" data-loc="Шутер с видом сверху">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Шутер с видом сверху</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4486" data-loc="Свобода выбора">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Свобода выбора</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3813" data-loc="Тактика в реальном времени">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Тактика в реальном времени</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4094" data-loc="Минимализм">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Минимализм</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1649" data-loc="GameMaker">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">GameMaker</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5160" data-loc="Динозавры ">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Динозавры </span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4853" data-loc="Политическая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Политическая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5765" data-loc="Кастомизация оружия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Кастомизация оружия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6910" data-loc="Морские бои">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Морские бои</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6625" data-loc="Контроль времени">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Контроль времени</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6702" data-loc="Марс">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Марс</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="8075" data-loc="TrackIR">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">TrackIR</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5794" data-loc="Наука">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Наука</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1679" data-loc="Футбол">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Футбол</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1717" data-loc="Hex Grid">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Hex Grid</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="21722" data-loc="Лара Крофт">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Лара Крофт</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="1714" data-loc="Психоделия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Психоделия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5390" data-loc="Игра на время">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Игра на время</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5395" data-loc="Трехмерный платформер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Трехмерный платформер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5055" data-loc="Киберспорт">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Киберспорт</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5094" data-loc="Повествование">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Повествование</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5186" data-loc="Психологическая">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Психологическая</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4608" data-loc="Сражения на мечах">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Сражения на мечах</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4400" data-loc="Абстрактная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Абстрактная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7743" data-loc="80-е">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">80-е</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="9271" data-loc="Коллекционная карточная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Коллекционная карточная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6041" data-loc="Лошади">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Лошади</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6915" data-loc="Боевые искусства">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Боевые искусства</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7478" data-loc="Illuminati">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Illuminati</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="9541" data-loc="Демоны">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Демоны</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7622" data-loc="Бездорожье">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Бездорожье</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="17305" data-loc="Стратегическая ролевая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Стратегическая ролевая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="31579" data-loc="Otome">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Otome</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="18848" data-loc="Ячеечный инвентарь">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Ячеечный инвентарь</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="11333" data-loc="Злодей-протагонист">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Злодей-протагонист</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="15339" data-loc="Документальный фильм">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Документальный фильм</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="15954" data-loc="Молчаливый главный герой">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Молчаливый главный герой</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7569" data-loc="Перемещение по клеткам">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Перемещение по клеткам</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="6310" data-loc="Дипломатия">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Дипломатия</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4508" data-loc="Совместная кампания">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Совместная кампания</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5673" data-loc="Modern">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Modern</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3854" data-loc="Проработанная вселенная">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Проработанная вселенная</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="3954" data-loc="Rail Shooter">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Rail Shooter</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4184" data-loc="Шахматы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Шахматы</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5432" data-loc="Программирование">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Программирование</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4835" data-loc="Свобода движения">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Свобода движения</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="5981" data-loc="Шахты">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Шахты</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="21725" data-loc="Тактическая ролевая игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Тактическая ролевая игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="17337" data-loc="Lemmings">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Lemmings</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="11123" data-loc="Управление мышью">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Управление мышью</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="8253" data-loc="Генерация на основе музыки">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Генерация на основе музыки</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="4845" data-loc="Капитализм">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Капитализм</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="7328" data-loc="Боулинг">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Боулинг</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="56690" data-loc="Рельсовый шутер">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Рельсовый шутер</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="9592" data-loc="Динамические повествование">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Динамические повествование</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="16250" data-loc="Gambling">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Gambling</span>
+	</div>
+		<div class="tab_filter_control " data-param="tags" data-value="17770" data-loc="Асинхронная многопользовательская игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Асинхронная многопользовательская игра</span>
+	</div>
+		<input type="hidden" id="tags" name="tags" value="">
+						</div>
+					<input type="text" id="TagSuggest">
+					<script>
+
+						$J( '#TagFilter_Container' ).tableFilter({ maxvisible: 15, control: '#TagSuggest', dataattribute: 'loc', 'defaultText': 'Найти другие метки' });
+
+					</script>
+				</div>
+				<a class="see_all_expander" href="#" onclick="ExpandOptions(this, 'narrow_tags'); return false;">Просмотреть все</a>
+			</div>
+
+			<div class="block">
+				<div class="block_header"><div>Только в категориях:</div></div>
+				<div class="block_content block_content_inner" id="narrow_category1" style="height: 150px;">
+						<div class="tab_filter_control " data-param="category1" data-value="998" data-loc="Игры">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Игры</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="999" data-loc="Видео/Трейлеры">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Видео/Трейлеры</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="10" data-loc="Демо">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Демо</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="997" data-loc="Модификации">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Модификации</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="996" data-loc="Комплекты">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Комплекты</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="21" data-loc="Загружаемый контент">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Загружаемый контент</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="995" data-loc="Руководства">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Руководства</span>
+	</div>
+		<div class="tab_filter_control " data-param="category1" data-value="994" data-loc="Программы">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Программы</span>
+	</div>
+		<input type="hidden" id="category1" name="category1" value="">
+	
+				</div>
+				<a class="see_all_expander" href="#" onclick="ExpandOptions(this, 'narrow_category1'); return false;">Просмотреть все</a>
+			</div>
+
+			<div class="block">
+				<div class="block_header"><div>По количеству игроков</div></div>
+				<div class="block_content block_content_inner">
+						<div class="tab_filter_control " data-param="category3" data-value="9" data-loc="Совместное прохождение">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Совместное прохождение</span>
+	</div>
+		<div class="tab_filter_control " data-param="category3" data-value="27" data-loc="Кроссплатформенная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Кроссплатформенная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="category3" data-value="1" data-loc="Для нескольких игроков">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Для нескольких игроков</span>
+	</div>
+		<div class="tab_filter_control " data-param="category3" data-value="24" data-loc="Совместная локальная игра">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Совместная локальная игра</span>
+	</div>
+		<div class="tab_filter_control " data-param="category3" data-value="2" data-loc="Для одного игрока">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Для одного игрока</span>
+	</div>
+		<input type="hidden" id="category3" name="category3" value="">
+	
+				</div>
+			</div>
+			<div class="block">
+				<div class="block_header"><div>По характеристикам</div></div>
+				<div class="block_content block_content_inner"  id="narrow_category2" style="height: 150px;">
+						<div class="tab_filter_control " data-param="category2" data-value="22" data-loc="Достижения Steam">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Достижения Steam</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="28" data-loc="Контроллер (полностью)">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Контроллер (полностью)</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="29" data-loc="Коллекционные карточки">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Коллекционные карточки</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="31" data-loc="Виртуальная реальность">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Виртуальная реальность</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="30" data-loc="Мастерская Steam">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мастерская Steam</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="8" data-loc="Имеется античит Valve">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Имеется античит Valve</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="23" data-loc="Steam Cloud">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Steam Cloud</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="6" data-loc="Мод (требуется HL2)">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Мод (требуется HL2)</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="18" data-loc="Контроллер (частично)">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Контроллер (частично)</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="16" data-loc="Включает Source SDK">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Включает Source SDK</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="7" data-loc="Моды (требуется HL1)">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Моды (требуется HL1)</span>
+	</div>
+		<div class="tab_filter_control " data-param="category2" data-value="13" data-loc="Имеются субтитры">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Имеются субтитры</span>
+	</div>
+		<input type="hidden" id="category2" name="category2" value="">
+	
+				</div>
+				<a class="see_all_expander" href="#" onclick="ExpandOptions(this, 'narrow_category2'); return false;">Просмотреть все</a>
+			</div>
+			<div class="block">
+				<div class="block_header"><div>По ОС</div></div>
+				<div class="block_content block_content_inner">
+						<div class="tab_filter_control checked" data-param="os" data-value="win" data-loc="ПК">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">ПК</span>
+	</div>
+		<div class="tab_filter_control " data-param="os" data-value="mac" data-loc="Mac">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Mac</span>
+	</div>
+		<div class="tab_filter_control " data-param="os" data-value="linux" data-loc="Linux">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">Linux</span>
+	</div>
+		<input type="hidden" id="os" name="os" value="win">
+	
+				</div>
+
+			</div>
+			<div class="block">
+				<div class="block_header"><div>По языку</div></div>
+				<div id="narrow_language" class="block_content block_content_inner"  style="height: 28px;">
+						<div class="tab_filter_control " data-param="supportedlang" data-value="russian" data-loc="русский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">русский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="bulgarian" data-loc="болгарский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">болгарский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="czech" data-loc="чешский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">чешский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="danish" data-loc="датский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">датский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="dutch" data-loc="голландский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">голландский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="english" data-loc="английский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">английский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="finnish" data-loc="финский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">финский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="french" data-loc="французский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">французский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="greek" data-loc="греческий">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">греческий</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="german" data-loc="немецкий">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">немецкий</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="hungarian" data-loc="венгерский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">венгерский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="italian" data-loc="итальянский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">итальянский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="japanese" data-loc="японский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">японский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="korean" data-loc="корейский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">корейский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="koreana" data-loc="корейский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">корейский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="norwegian" data-loc="норвежский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">норвежский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="polish" data-loc="польский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">польский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="portuguese" data-loc="португальский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">португальский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="brazilian" data-loc="бразильский португальский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">бразильский португальский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="romanian" data-loc="румынский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">румынский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="schinese" data-loc="упрощенный китайский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">упрощенный китайский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="spanish" data-loc="испанский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">испанский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="swedish" data-loc="шведский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">шведский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="tchinese" data-loc="традиционный китайский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">традиционный китайский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="thai" data-loc="тайский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">тайский</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="turkish" data-loc="турецкий">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">турецкий</span>
+	</div>
+		<div class="tab_filter_control " data-param="supportedlang" data-value="ukrainian" data-loc="украинский">
+		<div class="tab_filter_control_checkbox"></div>
+		<span class="tab_filter_control_label">украинский</span>
+	</div>
+		<input type="hidden" id="supportedlang" name="supportedlang" value="">
+	
+				</div>
+				<a class="see_all_expander" href="#" onclick="ExpandOptions(this, 'narrow_language'); return false;">Просмотреть все</a>
+			</div>
+
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+</div>
+<!-- End Main Background -->
+<input type="hidden" id="search_snr_value" name="snr" value="1_7_7_204_7">
+<input type="hidden" name="list_of_subs" value="">
+
+<input type="hidden" name="specials" value="1">
+<input type="hidden" name="filter" value="">
+<input type="hidden" name="salepage" value="">
+<input type="hidden" name="publisher" id="publisher" value="">
+<input type="hidden" name="developer" id="developer" value="">
+<input type="hidden" id="search_current_page" name="page" value="1">
+
+</form>
+
+<!-- Footer -->
+<div id="footer_spacer" class=""></div>
+<div id="footer"  class="">
+<div class="footer_content">
+	<div class="rule"></div>
+
+	<div id="footer_nav">
+
+		
+					<span class="pulldown btnv6_blue_hoverfade btn_small" id="footer_genre_pulldown">
+					<span>ТОВАРЫ ПО ЖАНРАМ</span>
+				</span>
+			<div class="popup_block_new" id="footer_genre_dropdown" style="display: none;">
+				<div class="popup_body popup_menu">
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Free%20to%20Play?snr=1_44_44__20">
+							Бесплатные игры						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Action?snr=1_44_44__20">
+							Экшены						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Adventure?snr=1_44_44__20">
+							Приключенческие игры						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Strategy?snr=1_44_44__20">
+							Стратегии						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/RPG?snr=1_44_44__20">
+							Ролевые игры						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Indie?snr=1_44_44__20">
+							Инди						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Massively%20Multiplayer?snr=1_44_44__20">
+							Многопользовательские игры						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Casual?snr=1_44_44__20">
+							Казуальные игры						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Simulation?snr=1_44_44__20">
+							Симуляторы						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Racing?snr=1_44_44__20">
+							Гонки						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Sports?snr=1_44_44__20">
+							Спортивные игры						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Accounting?snr=1_44_44__20">
+							Бухгалтерия						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Animation%20%26%20Modeling?snr=1_44_44__20">
+							Анимация и моделирование						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Audio%20Production?snr=1_44_44__20">
+							Работа со звуком						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Design%20%26%20Illustration?snr=1_44_44__20">
+							Дизайн						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Education?snr=1_44_44__20">
+							Обучение						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Photo%20Editing?snr=1_44_44__20">
+							Обработка фото						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Software%20Training?snr=1_44_44__20">
+							Обучение работе с ПО						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Utilities?snr=1_44_44__20">
+							Утилиты						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Video%20Production?snr=1_44_44__20">
+							Создание видео						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Web%20Publishing?snr=1_44_44__20">
+							Веб-разработка						</a>
+											<a class="popup_menu_item" href="http://store.steampowered.com/genre/Early%20Access?snr=1_44_44__20">
+							Ранний доступ						</a>
+									</div>
+			</div>
+					
+			<span class="pulldown btnv6_blue_hoverfade btn_small" id="footer_steam_pulldown">
+				<span>О STEAM</span>
+			</span>
+		<div class="popup_block_new" id="footer_steam_dropdown" style="display: none;">
+						<div class="popup_body popup_menu">
+				<a class="popup_menu_item" href="http://store.steampowered.com/about/?snr=1_44_44__22">
+					Что такое Steam?				</a>
+				<!--
+					<a class="popup_menu_item" href="">
+						Загрузить Steam					</a>
+					-->
+				<a class="popup_menu_item" target="_blank" href="https://support.steampowered.com/kb_article.php?p_faqid=549#gifts">
+					Подарки в Steam				</a>
+				<a class="popup_menu_item" href="https://steamcommunity.com/?snr=1_44_44__22">
+					Сообщество Steam				</a>
+			</div>
+					</div>
+	
+			<span class="pulldown btnv6_blue_hoverfade btn_small" id="footer_valve_pulldown">
+				<span>О VALVE</span>
+			</span>
+		<div class="popup_block_new" id="footer_valve_dropdown" style="display: none;">
+			<div class="popup_body popup_menu">
+				<a class="popup_menu_item" target="_blank" href="http://www.valvesoftware.com/about.html">
+					О Valve				</a>
+				<a class="popup_menu_item" target="_blank" href="http://www.valvesoftware.com/business/">
+					Решения для бизнеса				</a>
+				<a class="popup_menu_item" target="_blank" href="http://www.steampowered.com/steamworks/">
+					Steamworks				</a>
+				<a class="popup_menu_item" target="_blank" href="http://www.valvesoftware.com/jobs.html">
+					Вакансии				</a>
+			</div>
+		</div>
+			
+			
+			<span class="pulldown btnv6_blue_hoverfade btn_small" id="footer_help_pulldown">
+				<span>ПОМОЩЬ</span>
+			</span>
+		<div class="popup_block_new" id="footer_help_dropdown" style="display: none;">
+						<div class="popup_body popup_menu">
+				<a class="popup_menu_item" target="_blank" href="http://support.steampowered.com/">
+					Служба поддержки				</a>
+				<a class="popup_menu_item" target="_blank" href="http://store.steampowered.com/forums/?snr=1_44_44__23">
+					Форумы				</a>
+				<a class="popup_menu_item" target="_blank" href="http://store.steampowered.com/stats/?snr=1_44_44__23">
+					Статистики				</a>
+			</div>
+					</div>
+
+			
+			<span class="pulldown btnv6_blue_hoverfade btn_small" id="footer_feeds_pulldown">
+				<span>ЛЕНТЫ НОВОСТЕЙ</span>
+			</span>
+		<div class="popup_block_new" id="footer_feeds_dropdown" style="display: none;">
+			<div class="popup_body popup_menu">
+				<a class="popup_menu_item" href="http://store.steampowered.com/feeds/news.xml">
+					<img src="http://store.akamai.steamstatic.com/public/images/ico/ico_rss2.gif" width="13" height="13" border="0" alt="" align="top">&nbsp;&nbsp;Новости Steam				</a>
+				<a class="popup_menu_item" href="http://store.steampowered.com/feeds/newreleases.xml">
+					<img src="http://store.akamai.steamstatic.com/public/images/ico/ico_rss2.gif" width="13" height="13" border="0" alt="" align="top">&nbsp;&nbsp;Релизы игр				</a>
+				<a class="popup_menu_item" href="http://store.steampowered.com/feeds/daily_deals.xml">
+					<img src="http://store.akamai.steamstatic.com/public/images/ico/ico_rss2.gif" width="13" height="13" border="0" alt="" align="top">&nbsp;&nbsp;Предложения дня				</a>
+			</div>
+		</div>
+		<div style="clear: left;"></div>
+
+		<script type="text/javascript">
+			RegisterFlyout( 'footer_genre_pulldown', 'footer_genre_dropdown', null, null, true );
+			RegisterFlyout( 'footer_steam_pulldown', 'footer_steam_dropdown', null, null, true );
+			RegisterFlyout( 'footer_valve_pulldown', 'footer_valve_dropdown', null, null, true );
+			RegisterFlyout( 'footer_help_pulldown', 'footer_help_dropdown', null, null, true );
+			RegisterFlyout( 'footer_feeds_pulldown', 'footer_feeds_dropdown', null, null, true );
+		</script>
+	</div>
+
+	<br>
+
+    <div class="rule"></div>
+    <div id="footer_logo"><a target="_blank" href="http://www.valvesoftware.com"><img src="http://store.akamai.steamstatic.com/public/images/v6/logo_valve_footer.png" alt="Valve Software" border="0" /></a></div>
+    <div id="footer_text">
+        <div>&copy; 2014 Valve Corporation. Все права защищены. Все торговые марки являются собственностью соответствующих владельцев в США и других странах.</div>
+        <div>НДС включен во все цены, где он применим.&nbsp;&nbsp;
+
+            <a target="_blank" href="http://store.steampowered.com/privacy_agreement/">Политика конфиденциальности</a>
+            &nbsp; | &nbsp;
+            <a target="_blank" href="http://www.valvesoftware.com/legal.htm">Правовая информация</a>
+            &nbsp; | &nbsp;
+            <a target="_blank" href="http://store.steampowered.com/subscriber_agreement/">Соглашение подписчика службы Steam</a>
+            
+        </div>
+    </div>
+
+
+    <div style="clear: left;"></div>
+
+    <div class="rule"></div>
+
+    <div class="valve_links">
+        <a target="_blank" href="http://www.valvesoftware.com/about.html">О Valve</a>
+        &nbsp; | &nbsp;<a target="_blank" href="http://www.valvesoftware.com/business/">Решения для бизнеса</a>
+        &nbsp; | &nbsp;<a target="_blank" href="http://www.steampowered.com/steamworks/">Steamworks</a>
+        &nbsp; | &nbsp;<a target="_blank" href="http://www.valvesoftware.com/jobs.html">Вакансии</a>
+        &nbsp; | &nbsp;<a target="_blank" href="http://steamcommunity.com/greenlight">Дистрибуция Steam</a>
+    </div>
+
+</div>
+</div><!-- End Footer -->
+</body>
+</html>
